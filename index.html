@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- تم تصحيحها هنا -->
+    <title>منصة بلدي الذكية | النظام المتكامل</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Firebase SDK (إضافة مكتبات قاعدة البيانات) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+
+</head>
+<body>
+
+<header>
+    <div class="logo"><h2 style="margin:0;">🏛️ بلدي كركوك الذكي</h2></div>
+    <nav class="nav-links">
+        <button onclick="showSection('home')">المساعد الذكي</button>
+        <button onclick="showSection('request')">تقديم طلب</button>
+        <button onclick="showSection('tracking')">تتبع الطلبات</button>
+    </nav>
+</header>
+
+<div class="container">
+    
+    <!-- قسم المساعد الذكي (AI Integration) -->
+    <section id="home-section">
+        <div class="card">
+            <h3>مرحباً بك في المساعد الذكي 🤖</h3>
+            <p style="color: #666;">يمكنك التحدث معي باللهجة العراقية عن إجازات البناء والشكاوى.</p>
+            <div id="chat-window">
+                <div class="message bot-msg">أهلاً بك! أنا المساعد الذكي لبلدية كركوك المدعوم بـ AI. كيف أقدر أساعدك اليوم؟</div>
+            </div>
+            <div style="display:flex; gap:10px;">
+                <input type="text" id="user-input" placeholder="اكتب سؤالك هنا بصيغتك الخاصة...">
+                <button onclick="askAI()" id="send-btn" style="padding:0 20px; background:var(--primary); color:white; border:none; border-radius:8px; cursor:pointer;">إرسال</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- قسم تقديم الطلبات (Cloud Database) -->
+    <section id="request-section" class="hidden">
+        <div class="card">
+            <h3>📝 تقديم طلب جديد (سحابي)</h3>
+            <form id="mainForm">
+                <div class="form-group">
+                    <label>الاسم الكامل</label>
+                    <input type="text" id="fullName" placeholder="يجب إدخال الاسم">
+                </div>
+                <div class="form-group">
+                    <label>نوع الخدمة</label>
+                    <select id="requestType">
+                        <option value="إجازة بناء">إجازة بناء</option>
+                        <option value="شكوى بيئية">شكوى بيئية</option>
+                        <option value="طلب صيانة">طلب صيانة</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>وصف الطلب</label>
+                    <textarea id="description" rows="3" placeholder="اشرح طلبك بالتفصيل..."></textarea>
+                </div>
+                <button type="button" class="btn-main" onclick="submitToFirebase()">إرسال إلى قاعدة البيانات السحابية</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- قسم التتبع -->
+    <section id="tracking-section" class="hidden">
+        <div class="card">
+            <h3>🔍 تتبع حالة المعاملة من السحابة</h3>
+            <div style="display:flex; gap:10px; margin-bottom:20px;">
+                <input type="text" id="searchID" placeholder="أدخل رقم المعاملة (مثال: MUN-1234)">
+                <button onclick="trackFromFirebase()" style="background:var(--accent); color:white; border:none; padding:10px 20px; border-radius:8px; cursor:pointer;">بحث</button>
+            </div>
+            <div id="search-result"></div>
+        </div>
+    </section>
+
+</div>
+
+</body>
+</html>
